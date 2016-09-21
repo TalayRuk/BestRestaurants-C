@@ -6,13 +6,22 @@ using System.Data.SqlClient;
 using BestRestaurants;
 using BestRestaurants.Objects;
 
-namespace Testing
+namespace BestRestaurants
 {
-  public class Tests : IDisposable
+  public class Cuisine_Tests : IDisposable
    {
      public Tests()
       {
         DBConfiguration.ConnectionString = "Data Source=(localdb)\\mssqllocaldb;Initial Catalog=!!!!!!!!!!!!!!;Integrated Security=SSPI;";
       }
+      [Fact]
+      public void Test1_IsDbEmpty()
+      {
+        //Act
+        int AnyRows = Cuisine.GetAll().Count;
+        //Assert
+        Assert.Equal(0, AnyRows);
+      }
+
     }
 }
