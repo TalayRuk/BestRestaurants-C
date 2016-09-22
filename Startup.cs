@@ -40,6 +40,6 @@ namespace BestRestaurants
   }
   public static class DBConfiguration
   {
-    public static string ConnectionString = "Data Source=(localdb)\\mssqllocaldb;Initial Catalog=!!!!!!!!!!!!!;Integrated Security=SSPI;";
+    public static string ConnectionString = "Data Source=(localdb)\\mssqllocaldb;Initial Catalog=bestRestaurants;Integrated Security=SSPI;";
   }
 }
