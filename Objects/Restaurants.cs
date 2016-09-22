@@ -33,6 +33,20 @@ namespace BestRestaurants
       _id = id;
     }
 
+    //override
+    public override bool Equals(System.Object otherRestaurant)
+    {
+      if(!(otherRestaurant is Restaurant))
+      {
+        return false;
+      }
+      else
+      {
+        Restaurant newRestaurant = (Restaurant) otherRestaurant;
+        bool idE
+      }
+    }
+
     //GetAll
     public static List<Restaurant> GetAll()
     {
