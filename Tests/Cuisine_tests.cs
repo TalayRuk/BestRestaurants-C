@@ -69,6 +69,20 @@ namespace BestRestaurants
         Assert.Equal(foundCuisine, resultCuisine);
       }
 
+      [Fact]
+      public void TEst6_DeleteOne()
+      {
+        //Assert
+        Cuisine oneCuisine = new Cuisine("noodles");
+        Cuisine twoCuisine = new Cuisine("pizza");
+        oneCuisine.Save();
+        twoCuisine.Save();
+        // Act
+        oneCuisine.DeleteOne();
+        List<Cuisine> result = Cuisine.GetAll();
+        //Assert
+        Assert.Equal(1, result.Count);
+      }
 
       public void Dispose()
       {

@@ -122,6 +122,23 @@ namespace BestRestaurants.Objects
       return foundCuisine;
     }
 
+    public void DeleteOne()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+      SqlCommand cmd = new SqlCommand("DELETE FROM cuisine WHERE id = @CuisineId;", conn);
+      SqlParameter CuisineIdParameter = new SqlParameter();
+      CuisineIdParameter.ParameterName = "@CuisineId";
+      CuisineIdParameter.Value = this.GetId();
+      cmd.Parameters.Add(CuisineIdParameter);
+      cmd.ExecuteNonQuery();
+
+      if (conn != null)
+      {
+        conn.Close();
+      }
+    }
+
 
 
     public static void DeleteAll()
@@ -132,6 +149,7 @@ namespace BestRestaurants.Objects
     cmd.ExecuteNonQuery();
     conn.Close();
     }
+
     public override bool Equals(System.Object otherCuisine)
     {
       if (!(otherCuisine is Cuisine))
