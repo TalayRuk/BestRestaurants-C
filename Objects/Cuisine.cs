@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace BestRestaurants.Objects
+namespace BestRestaurants
 {
   public class Cuisine
-    {
-      private string _name;
-      private int _id;
+  {
+    private string _name;
+    private int _id;
 
     public Cuisine(string name, int id = 0 )
     {
@@ -138,8 +138,6 @@ namespace BestRestaurants.Objects
         conn.Close();
       }
     }
-
-
 
     public static void DeleteAll()
     {
