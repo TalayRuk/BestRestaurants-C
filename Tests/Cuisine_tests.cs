@@ -12,7 +12,7 @@ namespace BestRestaurants
    {
      public Cuisine_Tests()
       {
-        DBConfiguration.ConnectionString = "Data Source=(localdb)\\mssqllocaldb;Initial Catalog=bestRestaurants_tests;Integrated Security=SSPI;";
+        DBConfiguration.ConnectionString = "Data Source=(localdb)\\mssqllocaldb;Initial Catalog=best_restaurants_tests;Integrated Security=SSPI;";
       }
       [Fact]
       public void Test1_IsDbEmpty_true()
