@@ -5,25 +5,75 @@ using System.Data.SqlClient;
 
 namespace BestRestaurants
 {
-  public class Restaurants
+  public class Restaurant
   {
     private string _specialty;
     private int _id;
 
-    public Restaurants(string specialty, int id = 0)
+    public Restaurant(string specialty, int id = 0)
     {
       _specialty = specialty;
       _id = id;
     }
+    //Getter & setter
+    public string GetSpecialty()
+    {
+      return _specialty;
+    }
+    public int GetId()
+    {
+      return _id;
+    }
+    public void SetSpecialty(string newSpecialty)
+    {
+      _specialty = newSpecialty;
+    }
+    public void SetId(int id)
+    {
+      _id = id;
+    }
 
+    //GetAll
+    public static List<Restaurant> GetAll()
+    {
+      List<Restaurant> allRestaurants = new List<Restaurant> {};
 
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      string statement = "SELECT * FROM restaurants;";
+      SqlCommand cmd = new SqlCommand(statement, conn);
+      SqlDataReader rdr = cmd.ExecuteReader();
+      //read
+      while (rdr.Read())
+      {
+        int restaurantId = rdr.GetInt32(0);
+        string restaurantSpecialty = rdr.GetString(1);
+        Restaurant newRestaurant = new Restaurant(restaurantSpecialty, restaurantId);
+        allRestaurants.Add(newRestaurant);
+      }
+      //close
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+      return allRestaurants;
+    }
+
+    //DeleteAll
     public static void DeleteAll()
     {
       SqlConnection conn = DB.Connection();
       conn.Open();
 
-      string statement = "SELECT * FROM restaurants"
-      SqlCommand cmd = new SqlCommand()
+      string statement = "DELETE FROM restaurants;";
+      SqlCommand cmd = new SqlCommand(statement, conn);
+      cmd.ExecuteNonQuery();
+      conn.Close();
     }
 
   }

@@ -17,9 +17,9 @@ namespace BestRestaurants
       public void Test1_IsDbEmpty_true()
       {
         //Act
-        int AnyRows = Cuisine.GetAll().Count;
+        int anyRows = Cuisine.GetAll().Count;
         //Assert
-        Assert.Equal(0, AnyRows);
+        Assert.Equal(0, anyRows);
       }
       [Fact]
       public void test2_CheckEqualsOverride()
