@@ -26,7 +26,7 @@ namespace BestRestaurants
     }
     //test override
     [Fact]
-    public void Test1_CheckEqualIsOverride()
+    public void Test2_CheckEqualIsOverride()
     {
       //Arrange
       Restaurant restaurantOne = new Restaurant("thai");
@@ -35,9 +35,57 @@ namespace BestRestaurants
       //Assert
       Assert.Equal(restaurantOne, restaurantTwo);
     }
+    //test Save
+    [Fact]
+    public void Test3_SaveWork()
+    {
+      //Arrange
+      Restaurant testRestaurant = new Restaurant("thai");
+      testRestaurant.Save();
 
+      //Act
+      List<Restaurant> result = Restaurant.GetAll();
+      List<Restaurant> testList = new List<Restaurant>{testRestaurant};
+
+      //Assert
+      Assert.Equal(testList, result);
+    }
+    //test save id
+    [Fact]
+    public void Test4_SaveIdToDb()
+    {
+      //Arrange
+      Restaurant testRestaurant = new Restaurant("thai");
+      testRestaurant.Save();
+
+      //Act
+      Restaurant savedRestaurant = Restaurant.GetAll()[0];
+
+      int result = savedRestaurant.GetId();
+      int testRestaurantId = testRestaurant.GetId();
+
+      //Assert
+      Assert.Equal(testRestaurantId, result);
+    }
+    //test Find
+    [Fact]
+    public void Test5_FindId()
+    {
+      //Arrange
+    Restaurant testRestaurant = new Restaurant("thai");
+    testRestaurant.Save();
+
+    //Act
+    Restaurant foundRestaurant = Restaurant.Find(testRestaurant.GetId());
+
+    //Assert
+    Assert.Equal(testRestaurant, foundRestaurant);
+    }
+
+    //clear database
     public void Dispose()
     {
+      Cuisine.DeleteAll();
       Restaurant.DeleteAll();
     }
   }

@@ -9,11 +9,14 @@ namespace BestRestaurants
   {
     private string _name;
     private int _id;
+    private int _restaurantId;
 
-    public Cuisine(string name, int id = 0 )
+    public Cuisine(string name, int RestaurantId, int id = 0 )
     {
       _name = name;
       _id = id;
+      _restaurantId = RestaurantId;
+
     }
     public string GetName()
     {
@@ -23,6 +26,10 @@ namespace BestRestaurants
     {
       return _id;
     }
+    public int GetRestaurantId()
+    {
+      return _restaurantId;
+    }
     public void SetName(string name)
     {
       _name = name;
@@ -31,6 +38,12 @@ namespace BestRestaurants
     {
       _id = id;
     }
+    public void SetRestaurantId(int newRestaurantId)
+    {
+      _restaurantId = newRestaurantId;
+    }
+
+    //GetAll
     public static List<Cuisine> GetAll()
     {
       List<Cuisine> allCuisine = new List<Cuisine> {};
@@ -44,8 +57,8 @@ namespace BestRestaurants
 
       while (rdr.Read())
       {
-        string CuisineName = rdr.GetString(0);
-        int CuisineId = rdr.GetInt32(1);
+        string CuisineName = rdr.GetString(1);
+        int CuisineId = rdr.GetInt32(0);
         Cuisine newCuisine = new Cuisine(CuisineName, CuisineId);
         allCuisine.Add(newCuisine);
       }
@@ -95,10 +108,10 @@ namespace BestRestaurants
       conn.Open();
       string statement = "SELECT * FROM cuisine WHERE id = @CuisineId;";
       SqlCommand cmd = new SqlCommand(statement, conn);
-      SqlParameter CuisineIdParameter = new SqlParameter();
-      CuisineIdParameter.ParameterName = "@CuisineId";
-      CuisineIdParameter.Value = id.ToString();
-      cmd.Parameters.Add(CuisineIdParameter);
+      SqlParameter cuisineIdParameter = new SqlParameter();
+      cuisineIdParameter.ParameterName = "@CuisineId";
+      cuisineIdParameter.Value = id.ToString();
+      cmd.Parameters.Add(cuisineIdParameter);
       SqlDataReader rdr = cmd.ExecuteReader();
 
       int foundCuisineId = 0;
@@ -159,7 +172,8 @@ namespace BestRestaurants
         Cuisine newCuisine = (Cuisine) otherCuisine;
         bool idEquality = (this.GetId() == newCuisine.GetId());
         bool nameEquality = (this.GetName() == newCuisine.GetName());
-        return (idEquality && nameEquality);
+        bool restaurantEquality = this.GetRestaurantId() == newCuisine.GetRestaurantId()
+        return (idEquality && nameEquality && restaurantEquality);
       }
     }
     public override int GetHashCode()

@@ -28,10 +28,6 @@ namespace BestRestaurants
     {
       _specialty = newSpecialty;
     }
-    public void SetId(int id)
-    {
-      _id = id;
-    }
 
     //override
     public override bool Equals(System.Object otherRestaurant)
@@ -43,8 +39,14 @@ namespace BestRestaurants
       else
       {
         Restaurant newRestaurant = (Restaurant) otherRestaurant;
-        bool idE
+        bool idEquality = (this).GetId() == newRestaurant.GetId();
+        bool specialtyEquality = (this).GetSpecialty() == newRestaurant.GetSpecialty();
+        return (idEquality && specialtyEquality);
       }
+    }
+    public override int GetHashCode()
+    {
+      return this.GetSpecialty().GetHashCode();
     }
 
     //GetAll
@@ -76,6 +78,68 @@ namespace BestRestaurants
         conn.Close();
       }
       return allRestaurants;
+    }
+    //save
+    public void Save()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      string statement = "INSERT INTO restaurants (specialty) OUTPUT INSERTED.id VALUES (@RestaurantSpecial);";
+      SqlCommand cmd = new SqlCommand (statement, conn);
+
+      SqlParameter specialtyParameter = new SqlParameter();
+      specialtyParameter.ParameterName = "@RestaurantSpecial";
+      specialtyParameter.Value = this.GetSpecialty();
+      cmd.Parameters.Add(specialtyParameter);
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      while (rdr.Read() )
+      {
+        this._id = rdr.GetInt32(0);
+      }
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+    }
+    //Find
+    public static Restaurant Find(int id)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      string statement = "SELECT * FROM restaurants WHERE id =@restaurantId;";
+      SqlCommand cmd = new SqlCommand(statement, conn);
+      SqlParameter restaurantIdParameter = new SqlParameter();
+      restaurantIdParameter.ParameterName = "restaurantId";
+      restaurantIdParameter.Value = id.ToString();
+      cmd.Parameters.Add(restaurantIdParameter);
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      int foundRestaurantId = 0;
+      string foundRestaurantSpecial = null;
+
+      while (rdr.Read())
+      {
+        foundRestaurantId = rdr.GetInt32(0);
+        foundRestaurantSpecial = rdr.GetString(1);
+      }
+      Restaurant foundRestaurant = new Restaurant(foundRestaurantSpecial, foundRestaurantId);
+
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+      return foundRestaurant;
     }
 
     //DeleteAll

@@ -24,8 +24,8 @@ namespace BestRestaurants
       [Fact]
       public void test2_CheckEqualsOverride()
       {
-        Cuisine firstCuisine = new Cuisine ("tacos");
-        Cuisine secondCuisine = new Cuisine ("tacos");
+        Cuisine firstCuisine = new Cuisine ("tacos", 1);
+        Cuisine secondCuisine = new Cuisine ("tacos", 1);
         Assert.Equal(firstCuisine, secondCuisine);
       }
 
@@ -33,12 +33,29 @@ namespace BestRestaurants
       public void Test3_canWeSave_true()
       {
         //Arrange
-        Cuisine newCuisine = new Cuisine ("noodles");
+        Cuisine newCuisine = new Cuisine ("noodles", 1);
         //Act
         newCuisine.Save();
         Cuisine result = Cuisine.GetAll()[0];
         //Assert
         Assert.Equal(newCuisine, result);
+      }
+
+      [Fact]
+      public void Test4_SaveIdToObject()
+      {
+        //Arrange
+        Cuisine testCuisine = new Cuisine("noodle", 1);
+        testCuisine.Save();
+
+        //Act
+        Cuisine savedCuisine = Cuisine.GetAll()[0];
+
+        int result = savedCuisine.GetId();
+        int testId = testCuisine.GetId();
+
+        //Assert
+        Assert.Equal(testId, result);
       }
 
       [Fact]
@@ -60,7 +77,7 @@ namespace BestRestaurants
       public void Test5_Find_DoesFind()
       {
         // Arrange
-        Cuisine foundCuisine = new Cuisine("noodles");
+        Cuisine foundCuisine = new Cuisine("noodles", 1);
         foundCuisine.Save();
         // Act
         Cuisine resultCuisine = Cuisine.Find(foundCuisine.GetId());
