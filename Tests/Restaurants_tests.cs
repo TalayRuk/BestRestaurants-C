@@ -7,8 +7,8 @@ using BestRestaurants;
 
 namespace BestRestaurants
 {
-  public class Restaurant_tests : IDisposable
-  {
+  public class Restaurant_Tests : IDisposable
+  {//error CS1520: Method must have a return type b/c line 10 & 12 not exactly match 10:Restaurant_Tests, line 12:Restaurant_tests so it's kept sending error!!! 
     public Restaurant_Tests()
     {
       DBConfiguration.ConnectionString = "Data Source=(localdb)\\mssqllocaldb;Initial Catalog=best_restaurants_tests;Integrated Security=SSPI;";

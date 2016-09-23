@@ -11,7 +11,7 @@ namespace BestRestaurants
     private int _id;
     private int _restaurantId;
     //add restaurantId
-    public Cuisine(string name, int RestaurantId, int id = 0 )
+    public Cuisine(string name, int RestaurantId = 0, int id = 0 )
     {
       _name = name;
       _id = id;
@@ -189,7 +189,7 @@ namespace BestRestaurants
         Cuisine newCuisine = (Cuisine) otherCuisine;
         bool idEquality = (this.GetId() == newCuisine.GetId());
         bool nameEquality = (this.GetName() == newCuisine.GetName());
-        bool restaurantEquality = this.GetRestaurantId() == newCuisine.GetRestaurantId()
+        bool restaurantEquality = this.GetRestaurantId() == newCuisine.GetRestaurantId();
         return (idEquality && nameEquality && restaurantEquality);
       }
     }
