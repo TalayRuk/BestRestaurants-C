@@ -10,7 +10,7 @@ namespace BestRestaurants
     private string _name;
     private int _id;
     private int _restaurantId;
-
+    //add restaurantId
     public Cuisine(string name, int RestaurantId, int id = 0 )
     {
       _name = name;
@@ -26,6 +26,7 @@ namespace BestRestaurants
     {
       return _id;
     }
+    //add restaurantId
     public int GetRestaurantId()
     {
       return _restaurantId;
@@ -38,6 +39,7 @@ namespace BestRestaurants
     {
       _id = id;
     }
+    //add restaurantId
     public void SetRestaurantId(int newRestaurantId)
     {
       _restaurantId = newRestaurantId;
@@ -57,9 +59,12 @@ namespace BestRestaurants
 
       while (rdr.Read())
       {
-        string CuisineName = rdr.GetString(1);
         int CuisineId = rdr.GetInt32(0);
-        Cuisine newCuisine = new Cuisine(CuisineName, CuisineId);
+        string CuisineName = rdr.GetString(1);
+        //add restaurantId
+        int CuisineRestaurantId = rdr.GetInt32(2);
+        //add restaurantId
+        Cuisine newCuisine = new Cuisine(CuisineName, CuisineRestaurantId, CuisineId);
         allCuisine.Add(newCuisine);
       }
       if (rdr != null)
@@ -78,14 +83,22 @@ namespace BestRestaurants
     {
       SqlConnection conn = DB.Connection();
       conn.Open();
-
-      string statement = "INSERT INTO cuisine (name) OUTPUT INSERTED.id VALUES (@CuisineName);";
+      //add restaurantId
+      string statement = "INSERT INTO cuisine (name, restaurants_id) OUTPUT INSERTED.id VALUES (@CuisineName, @CuisineRestaurantId);";
       SqlCommand cmd = new SqlCommand (statement, conn);
 
       SqlParameter nameParameter = new SqlParameter();
       nameParameter.ParameterName = "@CuisineName";
       nameParameter.Value = this.GetName();
+      //add restaurantId
+      SqlParameter restaurantIdParameter = new SqlParameter();
+      restaurantIdParameter.ParameterName = "@CuisineRestaurantId";
+      restaurantIdParameter.Value = this.GetRestaurantId();
+
       cmd.Parameters.Add(nameParameter);
+      //add restaurantId
+      cmd.Parameters.Add(restaurantIdParameter);
+
       SqlDataReader rdr = cmd.ExecuteReader();
 
       while (rdr.Read() )
@@ -106,6 +119,7 @@ namespace BestRestaurants
     {
       SqlConnection conn = DB.Connection();
       conn.Open();
+
       string statement = "SELECT * FROM cuisine WHERE id = @CuisineId;";
       SqlCommand cmd = new SqlCommand(statement, conn);
       SqlParameter cuisineIdParameter = new SqlParameter();
@@ -116,13 +130,16 @@ namespace BestRestaurants
 
       int foundCuisineId = 0;
       string foundCuisineName = null;
+      //add restaurantId
+      int foundCuisineRestaurantId = 0;
 
       while(rdr.Read() )
       {
         foundCuisineId = rdr.GetInt32(1);
         foundCuisineName = rdr.GetString(0);
       }
-      Cuisine foundCuisine = new Cuisine(foundCuisineName, foundCuisineId);
+      //add restaurantId
+      Cuisine foundCuisine = new Cuisine(foundCuisineName, foundCuisineRestaurantId, foundCuisineId);
 
       if (rdr != null)
       {
