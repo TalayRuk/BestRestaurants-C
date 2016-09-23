@@ -62,8 +62,8 @@ namespace BestRestaurants
       public void Test4_DeleteAllDoesDelete_true()
       {
         //Arrange
-        Cuisine newCuisineOne = new Cuisine ("noodles");
-        Cuisine newCuisineTwo = new Cuisine ("pizza");
+        Cuisine newCuisineOne = new Cuisine ("noodles", 1);
+        Cuisine newCuisineTwo = new Cuisine ("pizza", 1);
         newCuisineOne.Save();
         newCuisineTwo.Save();
         //Act
@@ -89,8 +89,8 @@ namespace BestRestaurants
       public void TEst6_DeleteOne()
       {
         //Assert
-        Cuisine oneCuisine = new Cuisine("noodles");
-        Cuisine twoCuisine = new Cuisine("pizza");
+        Cuisine oneCuisine = new Cuisine("noodles", 1);
+        Cuisine twoCuisine = new Cuisine("pizza", 1);
         oneCuisine.Save();
         twoCuisine.Save();
         // Act
